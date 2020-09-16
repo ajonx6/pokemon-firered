@@ -20,6 +20,10 @@ public class Screen {
 		pixels[x + y * width] = (newr << 16) | (newg << 8) | newb;
 	}
 
+	public void render(Sprite sprite, double x, double y) {
+		render(sprite, (int) x, (int) y);
+	}
+
 	public void render(Sprite sprite, int x, int y) {
 		for (int yy = 0; yy < sprite.getHeight(); yy++) {
 			int yp = y + yy;

@@ -1,0 +1,17 @@
+Completed
+    - Added input with WASD
+    - Added SpriteSheets (loads a sprite, and splits into equal sized pieces)
+    - Added player sprites for each movement direction
+    - Added basic map functionality (a name and sprite)
+    - Added the pokemon tile movement 
+        - Each frame it moves the amount of pixels needed to move 16
+          pixels (size of the tile) in the given time (here, 0.4s)
+        - At the end of the movement, as the position will most likely
+          be 1 or 2 pixels out of place, we adjust to the exact position
+          using these formulas:
+	  1) pixelx = ((tilex + 0.5) * tilesize - spritewidth / 2)
+	  2) pixely = ((tiley + 1.0) * tilesize - spriteheight + 1)
+
+To do
+    - Add animation to player movement
+    - Center player on screen and move world behind player

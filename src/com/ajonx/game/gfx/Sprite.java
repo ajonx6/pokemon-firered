@@ -22,6 +22,13 @@ public class Sprite {
 		}
 	}
 
+	public Sprite(int[] pixels, int sw, int sh) {
+		this.width = sw;
+		this.height = sh;
+		this.pixels = new int[sw * sh];
+		System.arraycopy(pixels, 0, this.pixels, 0, pixels.length);
+	}
+
 	public int getPixel(int x, int y) {
 		return pixels[x + y * width];
 	}

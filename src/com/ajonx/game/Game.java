@@ -2,14 +2,16 @@ package com.ajonx.game;
 
 import java.awt.Canvas;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
+import com.ajonx.game.actors.Player;
 import com.ajonx.game.gfx.Screen;
-import com.ajonx.game.gfx.Sprite;
+import com.ajonx.game.map.MapManager;
 
 public class Game extends Canvas implements Runnable {
 	public static final int SCALE = 2;
@@ -25,17 +27,24 @@ public class Game extends Canvas implements Runnable {
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
 	private Screen screen;
-	private Sprite sprite = new Sprite("player");
+	private KeyInput ki;
+	private Player player;
 
 	public Game() {
 		screen = new Screen(WIDTH, HEIGHT);
+		ki = new KeyInput();
+		player = new Player();
+
+		addKeyListener(ki);
 	}
 
 	public void initWindow() {
 		window = new JFrame(TITLE);
+		window.setUndecorated(true);
 		window.pack();
 		window.add(this);
 		window.setSize(WIDTH * SCALE, HEIGHT * SCALE);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setLocationRelativeTo(null);
 		window.setResizable(false);
 		window.setVisible(true);
@@ -106,7 +115,10 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	public void tick() {
-
+		double delta = Time.getFrameTimeInSeconds();
+		KeyInput.tick();
+		if (KeyInput.isDown(KeyEvent.VK_ESCAPE)) System.exit(0);
+		player.tick(delta);
 	}
 
 	public void render() {
@@ -118,7 +130,8 @@ public class Game extends Canvas implements Runnable {
 		Graphics g = bs.getDrawGraphics();
 		screen.clear(0xff7a6b80);
 
-		screen.render(sprite, 20, 20);
+		MapManager.currentMap.render(screen);
+		player.render(screen);
 
 		System.arraycopy(screen.getPixels(), 0, pixels, 0, pixels.length);
 		g.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);
