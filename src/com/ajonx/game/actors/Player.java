@@ -2,6 +2,7 @@ package com.ajonx.game.actors;
 
 import java.awt.event.KeyEvent;
 
+import com.ajonx.game.Game;
 import com.ajonx.game.KeyInput;
 import com.ajonx.game.gfx.Screen;
 import com.ajonx.game.gfx.Sprite;
@@ -14,7 +15,10 @@ public class Player {
 	private MovementManager moveManager;
 
 	public Player() {
-		moveManager = new MovementManager(this, 2, 2);
+		moveManager = new MovementManager(this);
+		x = Game.WIDTH / 2 - currentSprite.getWidth() / 2;
+		y = Game.HEIGHT / 2 - currentSprite.getHeight() / 2;
+		moveManager.moveDirectToTile(2, 2);
 	}
 
 	private void move(double delta) {

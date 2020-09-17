@@ -10,6 +10,7 @@ import java.awt.image.DataBufferInt;
 import javax.swing.JFrame;
 
 import com.ajonx.game.actors.Player;
+import com.ajonx.game.audio.SoundManager;
 import com.ajonx.game.gfx.Screen;
 import com.ajonx.game.map.MapManager;
 
@@ -26,16 +27,19 @@ public class Game extends Canvas implements Runnable {
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 
+	public static Player player;
+
 	private Screen screen;
-	private KeyInput ki;
-	private Player player;
+	private KeyInput keyInput;
+	private SoundManager soundManager;
 
 	public Game() {
-		screen = new Screen(WIDTH, HEIGHT);
-		ki = new KeyInput();
 		player = new Player();
+		screen = new Screen(WIDTH, HEIGHT);
+		keyInput = new KeyInput();
+		soundManager = new SoundManager();
 
-		addKeyListener(ki);
+		addKeyListener(keyInput);
 	}
 
 	public void initWindow() {
@@ -55,6 +59,7 @@ public class Game extends Canvas implements Runnable {
 		running = true;
 		thread = new Thread(this, "Game");
 		thread.start();
+		soundManager.start();
 	}
 
 	public void stop() {
@@ -72,6 +77,7 @@ public class Game extends Canvas implements Runnable {
 		running = true;
 		requestFocus();
 
+		@SuppressWarnings("unused")
 		int frames = 0, ticks = 0;
 		long frameCounter = 0;
 		double frameTime = 1.0 / FPS;
@@ -95,7 +101,8 @@ public class Game extends Canvas implements Runnable {
 				tick();
 				ticks++;
 				if (frameCounter >= Time.SECOND) {
-					window.setTitle(TITLE + " | FPS: " + frames + ", UPS: " + ticks);
+					// window.setTitle(TITLE + " | FPS: " + frames + ", UPS: " + ticks);
+					// System.out.println("FPS: " + frames + ", UPS: " + ticks);
 					frames = 0;
 					ticks = 0;
 					frameCounter = 0;
@@ -116,9 +123,12 @@ public class Game extends Canvas implements Runnable {
 
 	public void tick() {
 		double delta = Time.getFrameTimeInSeconds();
-		KeyInput.tick();
 		if (KeyInput.isDown(KeyEvent.VK_ESCAPE)) System.exit(0);
+		if (KeyInput.wasPressed(KeyEvent.VK_SPACE)) SoundManager.changeBackgroundMusic("wild");
+		if (KeyInput.wasPressed(KeyEvent.VK_X)) SoundManager.playSoundEffect("click");
+
 		player.tick(delta);
+		KeyInput.tick();
 	}
 
 	public void render() {
@@ -128,9 +138,9 @@ public class Game extends Canvas implements Runnable {
 			return;
 		}
 		Graphics g = bs.getDrawGraphics();
-		screen.clear(0xff7a6b80);
+		screen.clear();
 
-		MapManager.currentMap.render(screen);
+		MapManager.render(screen);
 		player.render(screen);
 
 		System.arraycopy(screen.getPixels(), 0, pixels, 0, pixels.length);

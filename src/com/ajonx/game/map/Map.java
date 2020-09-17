@@ -17,8 +17,8 @@ public class Map {
 		this.tileHeight = map.getHeight() / TILE_SIZE;
 	}
 
-	public void render(Screen screen) {
-		screen.render(map, 0, 0);
+	public void render(Screen screen, double xo, double yo) {
+		screen.render(map, xo, yo);
 	}
 
 	public String getName() {

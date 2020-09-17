@@ -4,18 +4,17 @@ import com.ajonx.game.map.Map;
 import com.ajonx.game.map.MapManager;
 
 public class MovementManager {
-	public Player p;
+	public Player player;
 	public double srcX, srcY;
 	public double dstX, dstY;
 	public Direction direction;
 
 	public double distanceTravelled = 0;
-	public double timeToTake = 0.4;
+	public double timeToTake = 0.32;
 	public boolean moving = false;
 
-	public MovementManager(Player p, double x, double y) {
-		this.p = p;
-		moveDirectToTile(x, y);
+	public MovementManager(Player p) {
+		this.player = p;
 	}
 
 	public void startMove(Direction dir) {
@@ -40,21 +39,20 @@ public class MovementManager {
 	public void updateCoords(double delta) {
 		double dDir = delta * Map.TILE_SIZE / timeToTake;
 		if (direction == Direction.UP) {
-			p.setY(p.getY() - dDir);
+			MapManager.yOffset += dDir;
 		}
 		if (direction == Direction.DOWN) {
-			p.setY(p.getY() + dDir);
+			MapManager.yOffset -= dDir;
 		}
 		if (direction == Direction.LEFT) {
-			p.setX(p.getX() - dDir);
+			MapManager.xOffset += dDir;
 		}
 		if (direction == Direction.RIGHT) {
-			p.setX(p.getX() + dDir);
+			MapManager.xOffset -= dDir;
 		}
 		distanceTravelled += dDir;
 
 		if (distanceTravelled >= 16) {
-			moveDirectToTile(dstX, dstY);
 			finishMove();
 		}
 	}
@@ -69,8 +67,9 @@ public class MovementManager {
 
 	// Moves the sprite straight to the correct part of the tile
 	public void moveDirectToTile(double x, double y) {
-		p.setX((x + 0.5) * Map.TILE_SIZE - p.getSpriteWidth() / 2.0);
-		p.setY((y + 1.0) * Map.TILE_SIZE - p.getSpriteHeight() + 1.0);
+		MapManager.xOffset = player.getX() - ((x + 0.5) * Map.TILE_SIZE - player.getSpriteWidth() / 2.0);
+		MapManager.yOffset = player.getY() - ((y + 1.0) * Map.TILE_SIZE - player.getSpriteHeight() + 1.0);
+
 		srcX = dstX = x;
 		srcY = dstY = y;
 	}

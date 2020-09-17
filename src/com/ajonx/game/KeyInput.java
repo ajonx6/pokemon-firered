@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 public class KeyInput extends KeyAdapter {
 	private static final int NUM_KEYS = 256;
 	private static final boolean[] keys = new boolean[NUM_KEYS];
-	private static final boolean[] lastKeys = new boolean[NUM_KEYS];
+	private static final boolean[] keysLastTick = new boolean[NUM_KEYS];
 
 	public void keyPressed(KeyEvent e) {
 		keys[e.getKeyCode()] = true;
@@ -18,7 +18,7 @@ public class KeyInput extends KeyAdapter {
 
 	public static void tick() {
 		for (int i = 0; i < NUM_KEYS; i++) {
-			lastKeys[i] = keys[i];
+			keysLastTick[i] = keys[i];
 		}
 	}
 
@@ -27,10 +27,10 @@ public class KeyInput extends KeyAdapter {
 	}
 
 	public static boolean wasPressed(int key) {
-		return isDown(key) && !lastKeys[key];
+		return isDown(key) && !keysLastTick[key];
 	}
 
 	public static boolean wasReleased(int key) {
-		return !isDown(key) && lastKeys[key];
+		return !isDown(key) && keysLastTick[key];
 	}
 }
