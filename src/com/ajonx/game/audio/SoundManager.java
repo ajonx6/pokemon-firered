@@ -22,7 +22,7 @@ public class SoundManager implements Runnable {
 
 		soundEffects.put("click", new Sound("click"));
 
-		SoundManager.changeBackgroundMusic("pallet_town");
+		// SoundManager.changeBackgroundMusic("pallet_town");
 	}
 
 	public static void changeBackgroundMusic(String name) {

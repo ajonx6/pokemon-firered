@@ -1,16 +1,12 @@
-A lot of the changes here are the same code apparently being deleted and readded - this may be due to cloning the repo, i'm not sure
-but ignore some of the code changes shown, as its changing old code to the exact same code for the new bits :/
-
 Completed
-    - Centered player on screen, and moves map relative to player
-    - Can still instantly teleport to any tile seamlessly if neccessary
-    - Added sound files with 2 types of sounds
-	1) background music - music which runs continuously (on a loop) until you choose to play another background music
-	2) sound effects - play once when requested
-    - Loads the sound files on a different Thread, and will play first music (Pallet town music) after all sounds are loaded
-    - Fixed KeyInput.wasPressed() and KeyInput.wasReleased(), need to update the "keysLastTick" variable at end of tick not beginning
+    - Added NPCs to the game
+    - Each npc can have their own SpriteSheet
+    - Added animations to the movements
+    - Each npc now has co-ordinates for the tile its on, the exact pixel from the top
+      left of the map and then for the location on the screen itself
+    - Control player with WSAD, and NPC with arrow keys
 
 To do
-    - Add animation to player movement
+    - Add basic warping
     - Add basic tile loading, rather than loading single image of map
     - Add basic tile collision

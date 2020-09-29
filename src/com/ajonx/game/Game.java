@@ -9,6 +9,7 @@ import java.awt.image.DataBufferInt;
 
 import javax.swing.JFrame;
 
+import com.ajonx.game.actors.NPC;
 import com.ajonx.game.actors.Player;
 import com.ajonx.game.audio.SoundManager;
 import com.ajonx.game.gfx.Screen;
@@ -33,11 +34,15 @@ public class Game extends Canvas implements Runnable {
 	private KeyInput keyInput;
 	private SoundManager soundManager;
 
+	private NPC npc;
+
 	public Game() {
-		player = new Player();
+		player = new Player(2, 2);
 		screen = new Screen(WIDTH, HEIGHT);
 		keyInput = new KeyInput();
 		soundManager = new SoundManager();
+
+		npc = new NPC(3, 3);
 
 		addKeyListener(keyInput);
 	}
@@ -128,6 +133,7 @@ public class Game extends Canvas implements Runnable {
 		if (KeyInput.wasPressed(KeyEvent.VK_X)) SoundManager.playSoundEffect("click");
 
 		player.tick(delta);
+		npc.tick(delta );
 		KeyInput.tick();
 	}
 
@@ -142,6 +148,7 @@ public class Game extends Canvas implements Runnable {
 
 		MapManager.render(screen);
 		player.render(screen);
+		npc.render(screen);
 
 		System.arraycopy(screen.getPixels(), 0, pixels, 0, pixels.length);
 		g.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, null);

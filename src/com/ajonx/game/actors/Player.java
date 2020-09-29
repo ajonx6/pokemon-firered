@@ -4,74 +4,44 @@ import java.awt.event.KeyEvent;
 
 import com.ajonx.game.Game;
 import com.ajonx.game.KeyInput;
-import com.ajonx.game.gfx.Screen;
-import com.ajonx.game.gfx.Sprite;
 import com.ajonx.game.gfx.SpriteSheet;
+import com.ajonx.game.map.MapManager;
 
-public class Player {
-	private double x = 0, y = 0;
-	private SpriteSheet sheet = new SpriteSheet("player", 16, 24);
-	private Sprite currentSprite = sheet.getSprite(1);
-	private MovementManager moveManager;
+public class Player extends NPC {
+	public Player(int x, int y) {
+		super(x, y);
+		screenX = Game.WIDTH / 2 - currentSprite.getWidth() / 2;
+		screenY = Game.HEIGHT / 2 - currentSprite.getHeight() / 2;
+		MapManager.xOffset = screenX - worldX;
+		MapManager.yOffset = screenY - worldY;
 
-	public Player() {
+		sheet = new SpriteSheet("player", 16, 24);
 		moveManager = new MovementManager(this);
-		x = Game.WIDTH / 2 - currentSprite.getWidth() / 2;
-		y = Game.HEIGHT / 2 - currentSprite.getHeight() / 2;
-		moveManager.moveDirectToTile(2, 2);
+		spriteManager = new NPCSpriteManager(sheet, this);
 	}
 
-	private void move(double delta) {
+	public void move(double delta) {
 		if (!moveManager.moving) {
 			if (KeyInput.isDown(KeyEvent.VK_W)) {
-				currentSprite = sheet.getSprite(4);
 				moveManager.startMove(Direction.UP);
+				spriteManager.move(Direction.UP);
 			}
 			if (!moveManager.moving && KeyInput.isDown(KeyEvent.VK_S)) {
-				currentSprite = sheet.getSprite(1);
 				moveManager.startMove(Direction.DOWN);
+				spriteManager.move(Direction.DOWN);
 			}
 			if (!moveManager.moving && KeyInput.isDown(KeyEvent.VK_A)) {
-				currentSprite = sheet.getSprite(7);
 				moveManager.startMove(Direction.LEFT);
+				spriteManager.move(Direction.LEFT);
 			}
 			if (!moveManager.moving && KeyInput.isDown(KeyEvent.VK_D)) {
-				currentSprite = sheet.getSprite(10);
 				moveManager.startMove(Direction.RIGHT);
+				spriteManager.move(Direction.RIGHT);
 			}
 		}
 	}
 
 	public void tick(double delta) {
-		move(delta);
-		if (moveManager.moving) moveManager.updateCoords(delta);
-	}
-
-	public void render(Screen screen) {
-		screen.render(currentSprite, x, y);
-	}
-
-	public double getX() {
-		return x;
-	}
-
-	public double getY() {
-		return y;
-	}
-
-	public void setX(double x) {
-		this.x = x;
-	}
-
-	public void setY(double y) {
-		this.y = y;
-	}
-
-	public int getSpriteWidth() {
-		return sheet.getSpriteWidth();
-	}
-
-	public int getSpriteHeight() {
-		return sheet.getSpriteHeight();
+		super.tick(delta);
 	}
 }
