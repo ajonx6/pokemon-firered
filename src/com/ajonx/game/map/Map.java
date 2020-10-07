@@ -7,26 +7,22 @@ public class Map {
 	public static final int TILE_SIZE = 16;
 
 	private String name;
-	private Sprite map;
+	private Sprite layer1;
 	private int tileWidth, tileHeight;
 
-	public Map(String name, Sprite map) {
+	public Map(String name, Sprite layer1) {
 		this.name = name;
-		this.map = map;
-		this.tileWidth = map.getWidth() / TILE_SIZE;
-		this.tileHeight = map.getHeight() / TILE_SIZE;
+		this.layer1 = layer1;
+		this.tileWidth = layer1.getWidth() / TILE_SIZE;
+		this.tileHeight = layer1.getHeight() / TILE_SIZE;
 	}
 
 	public void render(Screen screen, double xo, double yo) {
-		screen.render(map, xo, yo);
+		screen.render(layer1, xo, yo);
 	}
 
 	public String getName() {
 		return name;
-	}
-
-	public Sprite getMap() {
-		return map;
 	}
 
 	public int getWidth() {

@@ -22,15 +22,23 @@ public class Sprite {
 		}
 	}
 
+	public Sprite(int sw, int sh) {
+		this(null, sw, sh);
+	}
+
 	public Sprite(int[] pixels, int sw, int sh) {
 		this.width = sw;
 		this.height = sh;
 		this.pixels = new int[sw * sh];
-		System.arraycopy(pixels, 0, this.pixels, 0, pixels.length);
+		if (pixels != null) System.arraycopy(pixels, 0, this.pixels, 0, pixels.length);
 	}
 
 	public int getPixel(int x, int y) {
 		return pixels[x + y * width];
+	}
+
+	public void setPixel(int x, int y, int col) {
+		pixels[x + y * width] = col;
 	}
 
 	public int getWidth() {
@@ -43,5 +51,12 @@ public class Sprite {
 
 	public int[] getPixels() {
 		return pixels;
+	}
+
+	public void save(String name) throws IOException {
+		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		img.setRGB(0, 0, width, height, pixels, 0, width);
+		File file = new File("./res/" + name + ".png");
+		ImageIO.write(img, "PNG", file);
 	}
 }

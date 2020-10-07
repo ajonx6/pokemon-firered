@@ -1,12 +1,8 @@
 Completed
-    - Added NPCs to the game
-    - Each npc can have their own SpriteSheet
-    - Added animations to the movements
-    - Each npc now has co-ordinates for the tile its on, the exact pixel from the top
-      left of the map and then for the location on the screen itself
-    - Control player with WSAD, and NPC with arrow keys
+    - Instead of loading a big picture of the whole map, you load in only 1 copy each unique tile
+    - Added my own ".map" file format for loading a map, which will use the tile sheet to make the map
 
 To do
     - Add basic warping
-    - Add basic tile loading, rather than loading single image of map
     - Add basic tile collision
+    - Add certain tiles as special so they draw part of it on top of the player

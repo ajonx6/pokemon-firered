@@ -133,7 +133,7 @@ public class Game extends Canvas implements Runnable {
 		if (KeyInput.wasPressed(KeyEvent.VK_X)) SoundManager.playSoundEffect("click");
 
 		player.tick(delta);
-		npc.tick(delta );
+		npc.tick(delta);
 		KeyInput.tick();
 	}
 
